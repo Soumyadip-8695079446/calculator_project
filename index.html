@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soumyadip calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #0f0f0f, #000000);
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .calculator {
+      background: #111;
+      border: 2px solid #0ff;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #0ff, 0 0 40px #00f, 0 0 60px #0ff;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      font-size: 36px;
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      background: #222;
+      color: #0ff;
+      text-align: right;
+      margin-bottom: 20px;
+      box-shadow: inset 0 0 10px #0ff;
+    }
+
+    input::placeholder {
+      color: #0ff;
+    }
+
+    button {
+      width: 60px;
+      height: 60px;
+      margin: 8px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      background: #111;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00f, 0 0 20px #00f inset;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      box-shadow: 0 0 15px #0ff, 0 0 30px #0ff inset;
+      transform: scale(1.05);
+    }
+
+    .operator {
+      color: #ff4081;
+      box-shadow: 0 0 10px #ff4081, 0 0 20px #ff4081 inset;
+    }
+
+    .equalBtn {
+      background-color: #00ff99;
+      color: black;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99 inset;
+    }
+
+    .equalBtn:hover {
+      background-color: #00cc77;
+      box-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc inset;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: #0ff;
+      font-size: 14px;
+      text-shadow: 0 0 5px #0ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" placeholder="0" id="inputBox" readonly>
+    <div>
+      <button class="operator">AC</button>
+      <button class="operator">DEL</button>
+      <button class="operator">%</button>
+      <button class="operator">/</button>
+    </div>
+    <div>
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button class="operator">*</button>
+    </div>
+    <div>
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button class="operator">-</button>
+    </div>
+    <div>
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button class="operator">+</button>
+    </div>
+    <div>
+      <button>00</button>
+      <button>0</button>
+      <button>.</button>
+      <button class="equalBtn">=</button>
+    </div>
+  </div>
+
+
+  <script>
+    let input = document.getElementById('inputBox');
+    let buttons = document.querySelectorAll('button');
+    let string = "";
+    let isResult = false;
+
+    let arr = Array.from(buttons);
+    arr.forEach(button => {
+      button.addEventListener('click', (e) => {
+        let value = e.target.innerHTML;
+
+        if (value === '=') {
+          try {
+            string = eval(string).toString();
+            input.value = string;
+            isResult = true;
+          } catch {
+            input.value = "Error";
+            string = "";
+            isResult = true;
+          }
+        }
+        else if (value === 'AC') {
+          string = "";
+          input.value = string;
+          isResult = false;
+        }
+        else if (value === 'DEL') {
+          if (isResult) {
+            string = "";
+            input.value = "";
+            isResult = false;
+          } else {
+            string = string.slice(0, -1);
+            input.value = string;
+          }
+        }
+        else {
+          if (isResult) {
+            string = "";
+            isResult = false;
+          }
+          string += value;
+          input.value = string;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
